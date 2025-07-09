@@ -1,0 +1,27 @@
+trigger:
+   - main
+
+variables:
+   imageName: 'springbootapp'
+   acrName: 'employee'
+   acrLoginServer: 'employee.azurecr.io'
+
+pool:
+   vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: Maven@3
+  inputs:
+     mavenPomFile: 'pom.xml'
+     goals: 'package'
+     options: '-DskipTests'
+
+- task: Docker@2
+  inputs: 
+     containerRegiistry: 'ACRServiceConnection'
+     repository: '$(imageName)'
+     command: 'buildAndPush'
+     Dockerfile: '**/Dockerfile'
+     tags: |
+        latest
