@@ -1,5 +1,5 @@
 trigger:
-   - main
+   - master
 
 variables:
    imageName: 'springbootapp'
@@ -13,15 +13,21 @@ steps:
 
 - task: Maven@3
   inputs:
-     mavenPomFile: 'pom.xml'
+     mavenPomFile: 'employeemanagement/pom.xml'
      goals: 'package'
      options: '-DskipTests'
+displayName: 'Maven Build - Package JAR'      
 
 - task: Docker@2
   inputs: 
      containerRegiistry: 'ACRServiceConnection'
      repository: '$(imageName)'
      command: 'buildAndPush'
-     Dockerfile: '**/Dockerfile'
+     Dockerfile: 'employeemanagement/Dockerfile'
      tags: |
         latest
+displayName: 'Docker Build and Push to ACR'
+
+
+- script: echo "Image build and push completes successfully!"
+  displayName: 'Success Message'
