@@ -1,55 +1,60 @@
 trigger:
-   - master
+  - master
 
 variables:
-   imageName: 'springbootapp'
-   acrName: 'employee'
-   acrLoginServer: 'employee.azurecr.io'
+  imageName: 'springbootapp'
+  acrName: 'employee'
+  acrLoginServer: 'employee.azurecr.io'
+  containerName: 'employee-management'
+  resourceGroup: 'app'
+  location: 'centralindia'
 
 pool:
-   vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
+  # Step 1: Build Spring Boot App
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'employeeManagement/pom.xml'
+      goals: 'package'
+      options: '-DskipTests'
+    displayName: 'Build Spring Boot App'
 
-- task: Maven@3
-  inputs:
-     mavenPomFile: 'employeemanagement/pom.xml'
-     goals: 'package'
-     options: '-DskipTests'
-displayName: 'Maven Build - Package JAR'      
-
-- task: Docker@2
-  inputs: 
-     containerRegiistry: 'ACRServiceConnection'
-     repository: '$(imageName)'
-     command: 'buildAndPush'
-     Dockerfile: 'employeemanagement/Dockerfile'
-     tags: |
+  # Step 2: Build and Push Docker Image to ACR
+  - task: Docker@2
+    inputs:
+      containerRegistry: 'ACRServiceConnection'
+      repository: '$(imageName)'
+      command: 'buildAndPush'
+      Dockerfile: 'employeeManagement/Dockerfile'
+      tags: |
         latest
-displayName: 'Docker Build and Push to ACR'
+    displayName: 'Build and Push Docker Image to ACR'
 
--- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'AzureServiceConnection' # Must match your service connection name
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: |
-      az container create \
-        --name Employee-Management \
-        --resource-group app \
-        --image employee.azurecr.io/springbootapp:latest \
-        --registry-login-server employee.azurecr.io \
-        --registry-username employee \
-        --registry-password $(registryPassword) \
-        --dns-name-label EmployeeManagement-$(Build.BuildId) \
-        --ports 8080 \
-        --location centralindia \
-        --restart-policy Always
-    displayName: 'Deploy to Azure Container Instance'
-  env:
-    registryPassword: $(ACR_PASSWORD)
+  # Step 3: Deploy to Azure Container Instance (ACI)
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'AzureServiceConnection'
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        echo "Deploying to Azure Container Instance..."
 
+        az container create \
+          --name $(containerName) \
+          --resource-group $(resourceGroup) \
+          --image $(acrLoginServer)/$(imageName):latest \
+          --registry-login-server $(acrLoginServer) \
+          --registry-username $(acrName) \
+          --registry-password $(registryPassword) \
+          --dns-name-label $(containerName)-$(Build.BuildId) \
+          --ports 8080 \
+          --location $(location) \
+          --restart-policy Always
 
-
-- script: echo "Image build and push completes successfully!"
-  displayName: 'Success Message'
+        echo "Deployment complete. App at:"
+        echo "http://$(containerName)-$(Build.BuildId).$(location).azurecontainer.io:8080"
+    displayName: 'Deploy Docker Image to ACI'
+    env:
+      registryPassword: $(ACR_PASSWORD)
