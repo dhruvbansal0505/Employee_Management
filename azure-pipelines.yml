@@ -28,6 +28,28 @@ displayName: 'Maven Build - Package JAR'
         latest
 displayName: 'Docker Build and Push to ACR'
 
+-- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'AzureServiceConnection' # Must match your service connection name
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az container create \
+        --name Employee-Management \
+        --resource-group app \
+        --image employee.azurecr.io/springbootapp:latest \
+        --registry-login-server employee.azurecr.io \
+        --registry-username employee \
+        --registry-password $(registryPassword) \
+        --dns-name-label EmployeeManagement-$(Build.BuildId) \
+        --ports 8080 \
+        --location centralindia \
+        --restart-policy Always
+    displayName: 'Deploy to Azure Container Instance'
+  env:
+    registryPassword: $(ACR_PASSWORD)
+
+
 
 - script: echo "Image build and push completes successfully!"
   displayName: 'Success Message'
