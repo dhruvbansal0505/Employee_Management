@@ -14,7 +14,7 @@ pool:
 
 steps:
   # Step 1: Build Spring Boot App
-  - task: Maven@3
+  - task: Maven@4
     inputs:
       mavenPomFile: 'employeemanagement/pom.xml'
       goals: 'package'
