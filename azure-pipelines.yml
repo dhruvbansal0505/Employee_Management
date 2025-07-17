@@ -19,6 +19,8 @@ steps:
       mavenPomFile: 'employeemanagement/pom.xml'
       goals: 'package'
       options: '-DskipTests'
+      jdkVersionOption: '1.21'
+      jdkArchitectureOption: 'x64'
     displayName: 'Build Spring Boot App'
 
   # Step 2: Build and Push Docker Image to ACR
