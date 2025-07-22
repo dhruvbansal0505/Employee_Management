@@ -16,8 +16,6 @@ A full-stack web application built with **Spring Boot**, **Spring Data JPA**, **
 
 ## 📂 Project Structure
 
-```
-
 Employee\_Management/
 ├── src/
 │   ├── main/
@@ -28,7 +26,6 @@ Employee\_Management/
 ├── azure-pipelines.yml      # Pipeline definition for Azure DevOps
 └── README.md
 
-````
 
 ---
 
@@ -45,22 +42,18 @@ Employee\_Management/
 
 1. **Clone the repository**
 
-   ```bash
    git clone https://github.com/dhruvbansal0505/Employee_Management.git
    cd Employee_Management
-````
 
 2. **Configure MySQL**
 
    * Create a database (e.g., `employee_db`)
    * Update `src/main/resources/application.properties`:
 
-     ```
      spring.datasource.url=jdbc:mysql://localhost:3306/employee_db
      spring.datasource.username=YOUR_USERNAME
      spring.datasource.password=YOUR_PASSWORD
      spring.jpa.hibernate.ddl-auto=update
-     ```
 
 3. **Build & Run**
 
@@ -84,20 +77,12 @@ You can automate builds and deployments by following these steps:
 
    * Create a **Pipeline** using the `azure-pipelines.yml` in your repo
 2. Run the pipeline to build and test the app.
-3. Take screenshots of:
 
-   * YAML definition in repo
-   * Successful build logs
-   * Any deployment steps
-
-Save them under `docs/azure-devops/` and embed like this:
-
-```markdown
 ### Azure Pipeline
 
-![Pipeline YAML](docs/azure-devops/pipeline-yaml.png)
-![Build Successful](docs/azure-devops/build-success.png)
-```
+![Pipeline YAML](/pipeline_overview.png)
+![Build Successful](/pipeline_log.png)
+
 
 ---
 
