@@ -14,6 +14,7 @@ A full-stack web application built with **Spring Boot**, **Spring Data JPA**, **
 
 ---
 
+
 ## 📂 Project Structure
 
 Employee\_Management/
@@ -25,6 +26,7 @@ Employee\_Management/
 │   │       └── application.properties
 ├── azure-pipelines.yml      # Pipeline definition for Azure DevOps
 └── README.md
+
 
 
 ---
@@ -78,10 +80,11 @@ You can automate builds and deployments by following these steps:
    * Create a **Pipeline** using the `azure-pipelines.yml` in your repo
 2. Run the pipeline to build and test the app.
 
-### Azure Pipeline
+### Azure DevOps Pipeline
 
-![Pipeline YAML](pipeline_overview.PNG)
-![Build Successful](pipeline_log.PNG)
+![Pipeline Overview](/pipeline_overview.PNG)
+
+![Build Success](/pipeline_log.PNG)
 
 
 ---
