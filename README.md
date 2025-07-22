@@ -82,7 +82,7 @@ You can automate builds and deployments by following these steps:
 
 ### Azure DevOps Pipeline
 
-![Pipeline Overview](employeemanagement/pipeline_log.PNG)
+![Pipeline Overview](employeemanagement/pipeline_overview.PNG)
 
 ![Build Success](employeemanagement/pipeline_log.PNG)
 
