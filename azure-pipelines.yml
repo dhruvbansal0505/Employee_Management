@@ -29,7 +29,7 @@ steps:
       containerRegistry: 'ACRServiceConnection'
       repository: '$(imageName)'
       command: 'buildAndPush'
-      Dockerfile: 'employeeManagement/Dockerfile'
+      Dockerfile: 'employeemanagement/Dockerfile'
       tags: |
         latest
     displayName: 'Build and Push Docker Image to ACR'
