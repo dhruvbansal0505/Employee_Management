@@ -80,8 +80,8 @@ You can automate builds and deployments by following these steps:
 
 ### Azure Pipeline
 
-![Pipeline YAML](/pipeline_overview.png)
-![Build Successful](/pipeline_log.png)
+![Pipeline YAML](pipeline_overview.png)
+![Build Successful](pipeline_log.png)
 
 
 ---
@@ -118,11 +118,6 @@ To contribute:
 
 ---
 
-## 📄 License
-
-Open-source under the MIT License.
-
----
 
 ## 📞 Contact
 
